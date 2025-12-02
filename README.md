@@ -2,66 +2,135 @@
 
 ## About this solution
 
-This is a layered startup solution based on [Domain Driven Design (DDD)](https://abp.io/docs/latest/framework/architecture/domain-driven-design) practises. All the fundamental ABP modules are already installed. Check the [Application Startup Template](https://abp.io/docs/latest/solution-templates/layered-web-application) documentation for more info.
+This is an Event Registration Application built using the ABP Framework and follows Domain Driven Design (DDD) practices.  
+This README has been updated to reflect the project requirements provided for the Event Management and Registration system.
 
-### Pre-requirements
+---
 
-* [.NET10.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node v18 or 20](https://nodejs.org/en)
+## Event Registration Application
 
-### Configurations
+### **Event Entity**
+Each event contains the following fields:
 
-The solution comes with a default configuration that works out of the box. However, you may consider to change the following configuration before running your solution:
+- **Name** (Arabic/English)
+- **Capacity** (number) *(required only if the event is not online)*
+- **IsOnline** (boolean)
+- **StartDate** (with time)
+- **EndDate** (with time)
+- **Organizer** (User)
+- **Link** *(required if the event is online)*
+- **Location** *(required if the event is not online)*
+- **IsActive** (boolean)
 
-* Check the `ConnectionStrings` in `appsettings.json` files under the `EventTask.HttpApi.Host` and `EventTask.DbMigrator` projects and change it if you need.
+---
 
-### Before running the application
+## Use Cases
 
-* Run `abp install-libs` command on your solution folder to install client-side package dependencies. This step is automatically done when you create a new solution, if you didn't especially disabled it. However, you should run it yourself if you have first cloned this solution from your source control, or added a new client-side package dependency to your solution.
-* Run `EventTask.DbMigrator` to create the initial database. This step is also automatically done when you create a new solution, if you didn't especially disabled it. This should be done in the first run. It is also needed if a new database migration is added to the solution later.
+- **Only Admin users can create events.**
+- **Admins can manage only their own events**  
+  (An admin cannot update or delete another admin's events).
+- **Any user can:**
+  - View all *active* events.
+  - View *their own* events (active or inactive).
+  - Cannot view other users’ inactive events.
+- **Users can register for active events** (only if capacity is available).
+- **Users can cancel their registration** up to **1 hour before the event start time**.
 
-#### Generating a Signing Certificate
+---
 
-In the production environment, you need to use a production signing certificate. ABP Framework sets up signing and encryption certificates in your application and expects an `openiddict.pfx` file in your application.
+## Tasks to Implement
 
-To generate a signing certificate, you can use the following command:
+- CRUD operations for events (Admin only).
+- User Registration & Cancellation for events.
+- Admins can list registrations for their own events.
+
+---
+
+## Notes
+
+- Built using the **ABP Framework**.
+- **Localization (Arabic/English)** must be supported.
+- Follow **DDD best practices**.
+- Frontend must be developed using **Angular**.
+
+---
+
+## Pre‑requirements
+
+- [.NET 10.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
+- [Node v18 or v20](https://nodejs.org/en)
+
+---
+
+## Configuration
+
+Before running the application, verify:
+
+- Update `ConnectionStrings` in:
+  - `EventTask.HttpApi.Host/appsettings.json`
+  - `EventTask.DbMigrator/appsettings.json`
+
+---
+
+## Before Running the Application
+
+1. Run:
+   ```bash
+   abp install-libs
+   ```
+   This installs all client-side dependencies.
+
+2. Run:
+   ```bash
+   EventTask.DbMigrator
+   ```
+   This creates the database and seeds initial data.
+
+---
+
+## Generating a Signing Certificate
+
+For production, generate an OpenIddict certificate:
 
 ```bash
 dotnet dev-certs https -v -ep openiddict.pfx -p 4182956d-d347-469f-84cd-bc129b017e9d
 ```
 
-> `4182956d-d347-469f-84cd-bc129b017e9d` is the password of the certificate, you can change it to any password you want.
+More info:
+- OpenIddict Certificates  
+- ABP Deployment Documentation
 
-It is recommended to use **two** RSA certificates, distinct from the certificate(s) used for HTTPS: one for encryption, one for signing.
+---
 
-For more information, please refer to: [OpenIddict Certificate Configuration](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios)
+## Solution Structure
 
-> Also, see the [Configuring OpenIddict](https://abp.io/docs/latest/Deployment/Configuring-OpenIddict#production-environment) documentation for more information.
+This is a layered monolith application with the following projects:
 
-### Solution structure
+- **EventTask.DbMigrator**  
+  Console app for migrations and seeding.
 
-This is a layered monolith application that consists of the following applications:
+- **EventTask.HttpApi.Host**  
+  ASP.NET Core API hosting all endpoints.
 
-* `EventTask.DbMigrator`: A console application which applies the migrations and also seeds the initial data. It is useful on development as well as on production environment.
-* `EventTask.HttpApi.Host`: ASP.NET Core API application that is used to expose the APIs to the clients.
-* `angular`: Angular application.
+- **angular**  
+  Angular frontend application.
 
+---
 
-## Deploying the application
+## Deploying the Application
 
-Deploying an ABP application follows the same process as deploying any .NET or ASP.NET Core application. However, there are important considerations to keep in mind. For detailed guidance, refer to ABP's [deployment documentation](https://abp.io/docs/latest/Deployment/Index).
+Deployment follows standard ASP.NET Core deployment practices.  
+For detailed instructions, review:
 
-### Additional resources
+- ABP Deployment Docs
 
+---
 
-#### Internal Resources
+## Additional Resources
 
-You can find detailed setup and configuration guide(s) for your solution below:
+### Internal
+- [Angular App README](./angular/README.md)
 
-* [Angular](./angular/README.md)
-
-#### External Resources
-You can see the following resources to learn more about your solution and the ABP Framework:
-
-* [Web Application Development Tutorial](https://abp.io/docs/latest/tutorials/book-store/part-1)
-* [Application Startup Template](https://abp.io/docs/latest/startup-templates/application/index)
+### External
+- ABP Web App Tutorial  
+- ABP Application Startup Template
