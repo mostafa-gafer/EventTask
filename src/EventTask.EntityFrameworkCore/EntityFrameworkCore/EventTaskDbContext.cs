@@ -15,6 +15,9 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using EventTask.Users;
+using EventTask.EventRegistrations;
+using EventTask.Events.Entities;
 
 namespace EventTask.EntityFrameworkCore;
 
@@ -44,7 +47,7 @@ public class EventTaskDbContext :
      */
 
     // Identity
-    public DbSet<IdentityUser> Users { get; set; }
+    public DbSet<User> Users { get; set; }
     public DbSet<IdentityRole> Roles { get; set; }
     public DbSet<IdentityClaimType> ClaimTypes { get; set; }
     public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
@@ -53,9 +56,16 @@ public class EventTaskDbContext :
     public DbSet<IdentityUserDelegation> UserDelegations { get; set; }
     public DbSet<IdentitySession> Sessions { get; set; }
 
+    // Explicit interface implementation for IIdentityDbContext.Users
+    DbSet<IdentityUser> IIdentityDbContext.Users => Set<IdentityUser>();
+
     // Tenant Management
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
+
+    // Events
+    public DbSet<Event> Events { get; set; }
+    public DbSet<EventRegistration> EventRegistrations { get; set; }
 
     #endregion
 

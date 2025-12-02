@@ -37,6 +37,57 @@
     "Unspecified": "نظام",
     "SeeAllUsers": "رؤية كافة المستخدمين",
     "TakePhoto": "تصوير",
-    "ChoosePhoto": "اختر صورة"
+    "ChoosePhoto": "اختر صورة",
+    "Menu:Events": "الفعاليات",
+    "Menu:MyEvents": "فعالياتي",
+    "Menu:ManageEvents": "إدارة الفعاليات",
+
+    "Events": "الفعاليات",
+    "NewEvent": "فعالية جديدة",
+    "EditEvent": "تعديل الفعالية",
+    "EventDetails": "تفاصيل الفعالية",
+    "EventRegistrations": "التسجيلات",
+
+    "Event:NameEn": "الاسم (إنجليزي)",
+    "Event:NameAr": "الاسم (عربي)",
+    "Event:Capacity": "السعة",
+    "Event:IsOnline": "عبر الإنترنت",
+    "Event:StartDate": "تاريخ البداية",
+    "Event:EndDate": "تاريخ النهاية",
+    "Event:Link": "الرابط",
+    "Event:Location": "الموقع",
+    "Event:IsActive": "نشط",
+    "Event:Organizer": "المنظم",
+    "Event:RegistrationCount": "عدد المسجلين",
+
+    "Event:Register": "تسجيل",
+    "Event:CancelRegistration": "إلغاء التسجيل",
+    "Event:RegistrationSuccess": "تم التسجيل في الفعالية بنجاح",
+    "Event:CancellationSuccess": "تم إلغاء التسجيل بنجاح",
+    "Event:ViewRegistrations": "عرض التسجيلات",
+
+    "Event:Online": "فعالية عبر الإنترنت",
+    "Event:InPerson": "فعالية حضورية",
+    "Event:Active": "نشط",
+    "Event:Inactive": "غير نشط",
+
+    "EventRegistration:InvalidDateRange": "يجب أن يكون تاريخ النهاية بعد تاريخ البداية",
+    "EventRegistration:InvalidCapacity": "يجب أن تكون السعة أكبر من صفر",
+    "EventRegistration:EventNotActive": "هذه الفعالية غير نشطة",
+    "EventRegistration:CapacityFull": "وصلت الفعالية إلى الحد الأقصى للسعة",
+    "EventRegistration:AlreadyRegistered": "أنت مسجل بالفعل في هذه الفعالية",
+    "EventRegistration:RegistrationNotFound": "التسجيل غير موجود",
+    "EventRegistration:CannotCancelNow": "لا يمكن إلغاء التسجيل قبل ساعة من بداية الفعالية",
+    "EventRegistration:UnauthorizedAccess": "غير مصرح لك بتنفيذ هذا الإجراء",
+
+    "Registration:UserName": "اسم المستخدم",
+    "Registration:UserEmail": "البريد الإلكتروني",
+    "Registration:RegisteredAt": "تاريخ التسجيل",
+
+    "Filter:AllEvents": "جميع الفعاليات",
+    "Filter:MyEvents": "فعالياتي المسجلة",
+    "Filter:MyOrganizedEvents": "الفعاليات المنظمة من قبلي",
+    "Filter:ActiveOnly": "النشطة فقط",
+    "Filter:IncludeInactive": "تضمين غير النشطة"
   }
 }

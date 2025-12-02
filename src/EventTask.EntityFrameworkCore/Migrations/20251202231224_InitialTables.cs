@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EventTask.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -430,6 +430,7 @@ namespace EventTask.Migrations
                     ShouldChangePasswordOnNextLogin = table.Column<bool>(type: "bit", nullable: false),
                     EntityVersion = table.Column<int>(type: "int", nullable: false),
                     LastPasswordChangeTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -446,7 +447,7 @@ namespace EventTask.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppBooks",
+                name: "Books",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -463,7 +464,7 @@ namespace EventTask.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppBooks", x => x.Id);
+                    table.PrimaryKey("PK_Books", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -786,6 +787,39 @@ namespace EventTask.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Capacity = table.Column<int>(type: "int", nullable: true),
+                    IsOnline = table.Column<bool>(type: "bit", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrganizerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Events_AbpUsers_OrganizerId",
+                        column: x => x.OrganizerId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictAuthorizations",
                 columns: table => new
                 {
@@ -831,6 +865,38 @@ namespace EventTask.Migrations
                         principalTable: "AbpEntityChanges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventRegistrations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RegisteredAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventRegistrations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EventRegistrations_AbpUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_EventRegistrations_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -1101,6 +1167,21 @@ namespace EventTask.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EventRegistrations_EventId",
+                table: "EventRegistrations",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventRegistrations_UserId",
+                table: "EventRegistrations",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_OrganizerId",
+                table: "Events",
+                column: "OrganizerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
                 table: "OpenIddictApplications",
                 column: "ClientId");
@@ -1213,7 +1294,10 @@ namespace EventTask.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AppBooks");
+                name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "EventRegistrations");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictScopes");
@@ -1237,13 +1321,16 @@ namespace EventTask.Migrations
                 name: "AbpRoles");
 
             migrationBuilder.DropTable(
-                name: "AbpUsers");
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictAuthorizations");
 
             migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
+
+            migrationBuilder.DropTable(
+                name: "AbpUsers");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");

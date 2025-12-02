@@ -33,6 +33,57 @@
     "Permission:Books.Delete": "Deleting the books",
     "Menu:Home": "Home",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit",
-    "Welcome": "Welcome"
+    "Welcome": "Welcome",
+    "Menu:Events": "Events",
+    "Menu:MyEvents": "My Events",
+    "Menu:ManageEvents": "Manage Events",
+
+    "Events": "Events",
+    "NewEvent": "New Event",
+    "EditEvent": "Edit Event",
+    "EventDetails": "Event Details",
+    "EventRegistrations": "Event Registrations",
+
+    "Event:NameEn": "Name (English)",
+    "Event:NameAr": "Name (Arabic)",
+    "Event:Capacity": "Capacity",
+    "Event:IsOnline": "Is Online",
+    "Event:StartDate": "Start Date",
+    "Event:EndDate": "End Date",
+    "Event:Link": "Link",
+    "Event:Location": "Location",
+    "Event:IsActive": "Is Active",
+    "Event:Organizer": "Organizer",
+    "Event:RegistrationCount": "Registrations",
+
+    "Event:Register": "Register",
+    "Event:CancelRegistration": "Cancel Registration",
+    "Event:RegistrationSuccess": "You have successfully registered for the event",
+    "Event:CancellationSuccess": "Your registration has been cancelled",
+    "Event:ViewRegistrations": "View Registrations",
+
+    "Event:Online": "Online Event",
+    "Event:InPerson": "In-Person Event",
+    "Event:Active": "Active",
+    "Event:Inactive": "Inactive",
+
+    "EventRegistration:InvalidDateRange": "End date must be after start date",
+    "EventRegistration:InvalidCapacity": "Capacity must be greater than 0",
+    "EventRegistration:EventNotActive": "This event is not active",
+    "EventRegistration:CapacityFull": "This event has reached its capacity",
+    "EventRegistration:AlreadyRegistered": "You are already registered for this event",
+    "EventRegistration:RegistrationNotFound": "Registration not found",
+    "EventRegistration:CannotCancelNow": "Cannot cancel registration less than 1 hour before event start",
+    "EventRegistration:UnauthorizedAccess": "You are not authorized to perform this action",
+
+    "Registration:UserName": "User Name",
+    "Registration:UserEmail": "Email",
+    "Registration:RegisteredAt": "Registered At",
+
+    "Filter:AllEvents": "All Events",
+    "Filter:MyEvents": "My Registered Events",
+    "Filter:MyOrganizedEvents": "My Organized Events",
+    "Filter:ActiveOnly": "Active Only",
+    "Filter:IncludeInactive": "Include Inactive"
   }
 }

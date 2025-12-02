@@ -6,6 +6,7 @@ export const APP_ROUTES: Routes = [
     path: '',
     pathMatch: 'full',
     loadComponent: () => import('./home/home.component').then(c => c.HomeComponent),
+    canActivate: [authGuard, permissionGuard],
   },
   {
     path: 'account',
@@ -18,10 +19,12 @@ export const APP_ROUTES: Routes = [
   {
     path: 'tenant-management',
     loadChildren: () => import('@abp/ng.tenant-management').then(c => c.createRoutes()),
+    canActivate: [authGuard, permissionGuard],
   },
   {
     path: 'setting-management',
     loadChildren: () => import('@abp/ng.setting-management').then(c => c.createRoutes()),
+    canActivate: [authGuard, permissionGuard],
   },
   {
     path: 'books',

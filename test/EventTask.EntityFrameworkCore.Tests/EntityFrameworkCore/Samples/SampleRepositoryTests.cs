@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EventTask.Users;
 using Shouldly;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
@@ -14,11 +15,11 @@ namespace EventTask.EntityFrameworkCore.Samples;
 [Collection(EventTaskTestConsts.CollectionDefinitionName)]
 public class SampleRepositoryTests : EventTaskEntityFrameworkCoreTestBase
 {
-    private readonly IRepository<IdentityUser, Guid> _appUserRepository;
+    private readonly IRepository<User, Guid> _appUserRepository;
 
     public SampleRepositoryTests()
     {
-        _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
+        _appUserRepository = GetRequiredService<IRepository<User, Guid>>();
     }
 
     [Fact]

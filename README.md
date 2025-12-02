@@ -134,3 +134,6 @@ For detailed instructions, review:
 ### External
 - ABP Web App Tutorial  
 - ABP Application Startup Template
+
+### Credentials for login app
+- enter admin as username and 1q2w3E* as password to login to the application

@@ -73,7 +73,132 @@ namespace EventTask.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppBooks", (string)null);
+                    b.ToTable("Books", (string)null);
+                });
+
+            modelBuilder.Entity("EventTask.EventRegistrations.EventRegistration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<DateTime>("RegisteredAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EventRegistrations");
+                });
+
+            modelBuilder.Entity("EventTask.Events.Event", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOnline")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("OrganizerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizerId");
+
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -958,6 +1083,11 @@ namespace EventTask.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletionTime");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -1088,6 +1218,10 @@ namespace EventTask.Migrations
                     b.HasIndex("UserName");
 
                     b.ToTable("AbpUsers", (string)null);
+
+                    b.HasDiscriminator().HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserClaim", b =>
@@ -1936,6 +2070,43 @@ namespace EventTask.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("EventTask.Users.User", b =>
+                {
+                    b.HasBaseType("Volo.Abp.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
+            modelBuilder.Entity("EventTask.EventRegistrations.EventRegistration", b =>
+                {
+                    b.HasOne("EventTask.Events.Event", "Event")
+                        .WithMany("Registrations")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EventTask.Users.User", "User")
+                        .WithMany("Registrations")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EventTask.Events.Event", b =>
+                {
+                    b.HasOne("EventTask.Users.User", "Organizer")
+                        .WithMany("Events")
+                        .HasForeignKey("OrganizerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organizer");
+                });
+
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
                 {
                     b.HasOne("Volo.Abp.AuditLogging.AuditLog", null)
@@ -2087,6 +2258,11 @@ namespace EventTask.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("EventTask.Events.Event", b =>
+                {
+                    b.Navigation("Registrations");
+                });
+
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
                 {
                     b.Navigation("Actions");
@@ -2125,6 +2301,13 @@ namespace EventTask.Migrations
             modelBuilder.Entity("Volo.Abp.TenantManagement.Tenant", b =>
                 {
                     b.Navigation("ConnectionStrings");
+                });
+
+            modelBuilder.Entity("EventTask.Users.User", b =>
+                {
+                    b.Navigation("Events");
+
+                    b.Navigation("Registrations");
                 });
 #pragma warning restore 612, 618
         }
