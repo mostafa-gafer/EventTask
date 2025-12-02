@@ -1,0 +1,109 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "5.0.0",
+      "isInstalled": true,
+      "creationTime": "12/02/2025 20:27:53 +00:00"
+    },
+    "Volo.Abp.Account": {
+      "version": "10.0.0",
+      "isInstalled": true,
+      "creationTime": "12/02/2025 20:27:53 +00:00"
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "10.0.0",
+      "isInstalled": true,
+      "creationTime": "12/02/2025 20:27:53 +00:00"
+    },
+    "Volo.Abp.Identity": {
+      "version": "10.0.0",
+      "isInstalled": true,
+      "creationTime": "12/02/2025 20:27:53 +00:00"
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "10.0.0",
+      "isInstalled": true,
+      "creationTime": "12/02/2025 20:27:53 +00:00"
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "10.0.0",
+      "isInstalled": true,
+      "creationTime": "12/02/2025 20:27:53 +00:00"
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "10.0.0",
+      "isInstalled": true,
+      "creationTime": "12/02/2025 20:27:53 +00:00"
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "10.0.0",
+      "isInstalled": true,
+      "creationTime": "12/02/2025 20:27:53 +00:00"
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "EventTask.Application": {
+      "path": "src/EventTask.Application/EventTask.Application.abppkg",
+      "folder": "src"
+    },
+    "EventTask.Application.Tests": {
+      "path": "test/EventTask.Application.Tests/EventTask.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "EventTask.Domain.Shared": {
+      "path": "src/EventTask.Domain.Shared/EventTask.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "EventTask.Application.Contracts": {
+      "path": "src/EventTask.Application.Contracts/EventTask.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "EventTask.HttpApi": {
+      "path": "src/EventTask.HttpApi/EventTask.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "EventTask.HttpApi.Client": {
+      "path": "src/EventTask.HttpApi.Client/EventTask.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "EventTask.EntityFrameworkCore.Tests": {
+      "path": "test/EventTask.EntityFrameworkCore.Tests/EventTask.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "EventTask.EntityFrameworkCore": {
+      "path": "src/EventTask.EntityFrameworkCore/EventTask.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "EventTask.TestBase": {
+      "path": "test/EventTask.TestBase/EventTask.TestBase.abppkg",
+      "folder": "test"
+    },
+    "EventTask.Domain.Tests": {
+      "path": "test/EventTask.Domain.Tests/EventTask.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "EventTask.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/EventTask.HttpApi.Client.ConsoleTestApp/EventTask.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "EventTask.DbMigrator": {
+      "path": "src/EventTask.DbMigrator/EventTask.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "EventTask.HttpApi.Host": {
+      "path": "src/EventTask.HttpApi.Host/EventTask.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "EventTask.Domain": {
+      "path": "src/EventTask.Domain/EventTask.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
