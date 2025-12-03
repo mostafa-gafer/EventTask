@@ -1,20 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace EventTask.Events.Dtos;
 
-public class CreateUpdateEventDto
+public record CreateUpdateEventDto
 {
-    [Required]
-    [StringLength(128)]
-    public string Name { get; set; } = string.Empty;
 
     [Required]
-    [DataType(DataType.Date)]
-    public DateTime PublishDate { get; set; } = DateTime.Now;
+    [StringLength(EventConsts.MaxNameLength)]
+    public string NameEn { get; init; } = null!;
 
     [Required]
-    public float Price { get; set; }
+    [StringLength(EventConsts.MaxNameLength)]
+    public string NameAr { get; init; } = null!;
+
+    public int? Capacity { get; init; }
+
+    public bool IsOnline { get; init; } = true;
+
+    [Required]
+    public DateTime StartDate { get; init; }
+
+    [Required]
+    public DateTime EndDate { get; init; }
+
+    [Required]
+    public Guid OrganizerId { get; init; }
+
+    [StringLength(EventConsts.MaxLinkLength)]
+    public string? Link { get; init; }
+
+    [StringLength(EventConsts.MaxLocationLength)]
+    public string? Location { get; init; }
+
+    public bool IsActive { get; init; } = true;
 }
