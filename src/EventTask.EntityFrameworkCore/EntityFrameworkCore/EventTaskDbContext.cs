@@ -31,8 +31,6 @@ public class EventTaskDbContext :
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
-    public DbSet<Book> Books { get; set; }
-
     #region Entities from the modules
 
     /* Notice: We only implemented IIdentityProDbContext and ISaasDbContext
@@ -91,13 +89,13 @@ public class EventTaskDbContext :
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
         
-        builder.Entity<Book>(b =>
-        {
-            b.ToTable(EventTaskConsts.DbTablePrefix + "Books",
-                EventTaskConsts.DbSchema);
-            b.ConfigureByConvention(); //auto configure for the base class props
-            b.Property(x => x.Name).IsRequired().HasMaxLength(128);
-        });
+        //builder.Entity<Event>(b =>
+        //{
+        //    b.ToTable(EventTaskConsts.DbTablePrefix + "Books",
+        //        EventTaskConsts.DbSchema);
+        //    b.ConfigureByConvention(); //auto configure for the base class props
+        //    b.Property(x => x.Name).IsRequired().HasMaxLength(128);
+        //});
         
         /* Configure your own tables/entities inside here */
 
