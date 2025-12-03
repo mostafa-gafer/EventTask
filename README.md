@@ -136,4 +136,6 @@ For detailed instructions, review:
 - ABP Application Startup Template
 
 ### Credentials for login app
-- enter admin as username and 1q2w3E* as password to login to the application
+- to login to the application enters
+- username: admin 
+- password: 1q2w3E*

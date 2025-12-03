@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EventTask.Events.Entities;
+﻿namespace EventTask.Events;
 
 public class EventDomainErrorCodes
 {

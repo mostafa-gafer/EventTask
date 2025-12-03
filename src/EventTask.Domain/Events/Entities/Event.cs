@@ -92,7 +92,7 @@ public class Event : AuditedAggregateRoot<Guid>
 
     public bool CanCancelRegistration()
     {
-        return DateTime.Now < StartDate.AddHours(-1);
+        return DateTime.UtcNow < StartDate.AddHours(-1);
     }
 
     internal void AddRegistration(EventRegistration registration)
@@ -127,7 +127,7 @@ public class Event : AuditedAggregateRoot<Guid>
         if (isOnline)
         {
             Link = Check.NotNullOrWhiteSpace(link, nameof(link), EventConsts.MaxLinkLength);
-            Location = null;
+            Location = string.Empty;
             Capacity = null;
         }
         else
@@ -136,7 +136,7 @@ public class Event : AuditedAggregateRoot<Guid>
             if (capacity.HasValue && capacity.Value <= 0)
                 throw new BusinessException(EventDomainErrorCodes.InvalidCapacity);
             Capacity = capacity;
-            Link = null;
+            Link = string.Empty;
         }
     }
 }
