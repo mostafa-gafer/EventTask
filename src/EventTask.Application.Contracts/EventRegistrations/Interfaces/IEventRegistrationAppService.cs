@@ -8,7 +8,7 @@ using Volo.Abp.Application.Services;
 
 namespace EventTask.EventRegistrations.Interfaces;
 
-public interface IEventRegistrationService :
+public interface IEventRegistrationAppService :
     ICrudAppService< //Defines CRUD methods
         EventRegistrationDto, //Used to show registrations
         Guid, //Primary key of the event register entity

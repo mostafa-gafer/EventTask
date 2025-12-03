@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EventTask.EventRegistrations
 {
-    internal class EventRegistrationService
+    internal class EventRegistrationAppService
     {
     }
 }

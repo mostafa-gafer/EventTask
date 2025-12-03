@@ -2,8 +2,7 @@
   "Culture": "en",
   "Texts": {
     "AppName": "EventTask",
-    "Menu:EventTask": "Book Store",
-    "Menu:Books": "Books",
+    "Menu:EventTask": "Events",
     "Actions": "Actions",
     "Close": "Close",
     "Delete": "Delete",

@@ -8,7 +8,7 @@ using Volo.Abp.Application.Services;
 
 namespace EventTask.Events.Interfaces;
 
-public interface IEventService :
+public interface IEventAppService :
     ICrudAppService< //Defines CRUD methods
         EventDto, //Used to show events
         Guid, //Primary key of the event event entity
