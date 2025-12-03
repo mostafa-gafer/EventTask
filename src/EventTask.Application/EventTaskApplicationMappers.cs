@@ -13,10 +13,10 @@ public partial class EventTaskEventToEventDtoMapper : MapperBase<Event, EventDto
     public override partial void Map(Event source, EventDto destination);
 }
 
-[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
-public partial class EventTaskCreateUpdateEventDtoToEventMapper : MapperBase<CreateUpdateEventDto, Event>
-{
-    public override partial Event Map(CreateUpdateEventDto source);
+//[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
+//public partial class EventTaskCreateUpdateEventDtoToEventMapper : MapperBase<CreateUpdateEventDto, Event>
+//{
+//    //public override partial Event Map(CreateUpdateEventDto source);
 
-    public override partial void Map(CreateUpdateEventDto source, Event destination);
-}
+//    public override partial void Map(CreateUpdateEventDto source, Event destination);
+//}

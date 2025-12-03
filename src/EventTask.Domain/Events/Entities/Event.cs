@@ -10,9 +10,9 @@ namespace EventTask.Events.Entities;
 
 public class Event : AuditedAggregateRoot<Guid>
 {
-    public string NameEn { get; private set; }
+    public string NameEn { get; private set; } = null!;
 
-    public string NameAr { get; private set; }
+    public string NameAr { get; private set; } = null!;
 
     public int? Capacity { get; private set; }
 
@@ -24,11 +24,11 @@ public class Event : AuditedAggregateRoot<Guid>
 
     public Guid OrganizerId { get; private set; }
 
-    public User Organizer { get; private set; }
+    public User Organizer { get; private set; } = null!;
 
-    public string Link { get; private set; }
+    public string? Link { get; private set; }
 
-    public string Location { get; private set; }
+    public string? Location { get; private set; }
 
     public bool IsActive { get; private set; }
 
@@ -40,17 +40,16 @@ public class Event : AuditedAggregateRoot<Guid>
     protected Event() { }
 
     public Event(
-        Guid id,
         string nameEn,
         string nameAr,
         bool isOnline,
         DateTime startDate,
         DateTime endDate,
         Guid organizerId,
-        int? capacity = null,
-        string link = null,
-        string location = null,
-        bool isActive = true) : base(id)
+        int? capacity,
+        bool isActive = true,
+        string? link = null,
+        string? location = null)
     {
         SetName(nameEn, nameAr);
         SetDates(startDate, endDate);
@@ -65,13 +64,17 @@ public class Event : AuditedAggregateRoot<Guid>
         bool isOnline,
         DateTime startDate,
         DateTime endDate,
-        int? capacity = null,
-        string link = null,
-        string location = null)
+        Guid organizerId,
+        int? capacity,
+        bool isActive = true,
+        string? link = null,
+        string? location = null)
     {
         SetName(nameEn, nameAr);
         SetDates(startDate, endDate);
         SetEventType(isOnline, capacity, link, location);
+        OrganizerId = organizerId;
+        IsActive = isActive;
     }
 
     public void SetActive(bool isActive)
@@ -120,7 +123,7 @@ public class Event : AuditedAggregateRoot<Guid>
         EndDate = endDate;
     }
 
-    private void SetEventType(bool isOnline, int? capacity, string link, string location)
+    private void SetEventType(bool isOnline, int? capacity, string? link, string? location)
     {
         IsOnline = isOnline;
 

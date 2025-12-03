@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EventTask.Events.Dtos;
 
-public class CreateUpdateEventDto
+public record CreateUpdateEventDto
 {
 
     [Required]
     [StringLength(EventConsts.MaxNameLength)]
-    public string NameEn { get; set; } = string.Empty;
+    public string NameEn { get; init; } = null!;
 
     [Required]
     [StringLength(EventConsts.MaxNameLength)]

@@ -1,4 +1,5 @@
-﻿using EventTask.Events.Entities;
+﻿using EventTask.Events;
+using EventTask.Events.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

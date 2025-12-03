@@ -17,9 +17,9 @@ namespace EventTask.Events;
 [Authorize(EventTaskPermissions.Events.Default)]
 public class EventAppService : ApplicationService, IEventAppService
 {
-    private readonly IRepository<Event, Guid> _repository;
+    private readonly IEventRepository _repository;
 
-    public EventAppService(IRepository<Event, Guid> repository)
+    public EventAppService(IEventRepository repository)
     {
         _repository = repository;
     }
@@ -50,18 +50,38 @@ public class EventAppService : ApplicationService, IEventAppService
     [Authorize(EventTaskPermissions.Events.Create)]
     public async Task<EventDto> CreateAsync(CreateUpdateEventDto input)
     {
-        var Event = ObjectMapper.Map<CreateUpdateEventDto, Event>(input);
-        await _repository.InsertAsync(Event);
-        return ObjectMapper.Map<Event, EventDto>(Event);
+        var eventEntity = new Event(input.NameEn, 
+            input.NameAr, 
+            input.IsOnline, 
+            input.StartDate, 
+            input.EndDate, 
+            input.OrganizerId, 
+            input.Capacity, 
+            input.IsActive,
+            input.Link,
+            input.Location);
+
+        await _repository.InsertAsync(eventEntity);
+        return ObjectMapper.Map<Event, EventDto>(eventEntity);
     }
 
     [Authorize(EventTaskPermissions.Events.Edit)]
     public async Task<EventDto> UpdateAsync(Guid id, CreateUpdateEventDto input)
     {
-        var Event = await _repository.GetAsync(id);
-        ObjectMapper.Map(input, Event);
-        await _repository.UpdateAsync(Event);
-        return ObjectMapper.Map<Event, EventDto>(Event);
+        var eventEntity = await _repository.GetAsync(id);
+        eventEntity.Update(
+            input.NameEn,
+            input.NameAr,
+            input.IsOnline,
+            input.StartDate,
+            input.EndDate,
+            input.OrganizerId,
+            input.Capacity,
+            input.IsActive,
+            input.Link,
+            input.Location);
+
+        return ObjectMapper.Map<Event, EventDto>(eventEntity);
     }
 
     [Authorize(EventTaskPermissions.Events.Delete)]
