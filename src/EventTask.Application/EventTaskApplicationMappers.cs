@@ -1,21 +1,22 @@
+using EventTask.Events.Dtos;
+using EventTask.Events.Entities;
 using Riok.Mapperly.Abstractions;
 using Volo.Abp.Mapperly;
-using EventTask.Books;
 
 namespace EventTask;
 
 [Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
-public partial class EventTaskBookToBookDtoMapper : MapperBase<Book, BookDto>
+public partial class EventTaskEventToEventDtoMapper : MapperBase<Event, EventDto>
 {
-    public override partial BookDto Map(Book source);
+    public override partial EventDto Map(Event source);
 
-    public override partial void Map(Book source, BookDto destination);
+    public override partial void Map(Event source, EventDto destination);
 }
 
 [Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
-public partial class EventTaskCreateUpdateBookDtoToBookMapper : MapperBase<CreateUpdateBookDto, Book>
+public partial class EventTaskCreateUpdateEventDtoToEventMapper : MapperBase<CreateUpdateEventDto, Event>
 {
-    public override partial Book Map(CreateUpdateBookDto source);
+    public override partial Event Map(CreateUpdateEventDto source);
 
-    public override partial void Map(CreateUpdateBookDto source, Book destination);
+    public override partial void Map(CreateUpdateEventDto source, Event destination);
 }

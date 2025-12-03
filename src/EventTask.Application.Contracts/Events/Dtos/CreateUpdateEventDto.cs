@@ -8,7 +8,7 @@ public record CreateUpdateEventDto
 
     [Required]
     [StringLength(EventConsts.MaxNameLength)]
-    public string NameEn { get; init; } = null!;
+    public string NameEn { get; set; } = null!;
 
     [Required]
     [StringLength(EventConsts.MaxNameLength)]
