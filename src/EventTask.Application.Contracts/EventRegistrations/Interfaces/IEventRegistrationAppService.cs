@@ -1,8 +1,5 @@
-﻿using EventTask.Books;
-using EventTask.EventRegistrations.Dtos;
+﻿using EventTask.EventRegistrations.Dtos;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
