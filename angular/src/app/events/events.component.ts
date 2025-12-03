@@ -1,20 +1,20 @@
 import {
   FormGroup,
-  FormBuilder, 
-  Validators, 
-  FormsModule, 
-  ReactiveFormsModule
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { Component, inject, OnInit } from '@angular/core';
-import { DatePipe, CurrencyPipe, formatDate } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { NgbDatepickerModule, NgbDateStruct, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import {
   ListService,
-  PagedResultDto, 
-  LocalizationPipe, 
-  PermissionDirective, 
-  AutofocusDirective
+  PagedResultDto,
+  LocalizationPipe,
+  PermissionDirective,
+  AutofocusDirective,
 } from '@abp/ng.core';
 import {
   ConfirmationService,
@@ -22,13 +22,14 @@ import {
   NgxDatatableDefaultDirective,
   NgxDatatableListDirective,
   ModalCloseDirective,
-  ModalComponent
+  ModalComponent,
 } from '@abp/ng.theme.shared';
-import { BookService, BookDto, bookTypeOptions } from '../proxy/books';
+import { EventService } from '../proxy/events';
+import { EventDto } from '../proxy/events/dtos';
 
 @Component({
-  selector: 'app-book',
-  templateUrl: './book.component.html',
+  selector: 'app-events',
+  templateUrl: './events.component.html',
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -43,39 +44,38 @@ import { BookService, BookDto, bookTypeOptions } from '../proxy/books';
     ModalCloseDirective,
     LocalizationPipe,
     DatePipe,
-    CurrencyPipe
   ],
   providers: [ListService],
 })
-export class BookComponent implements OnInit {
+export class EventsComponent implements OnInit {
   public readonly list = inject(ListService);
-  private bookService = inject(BookService);
+  private eventService = inject(EventService);
   private fb = inject(FormBuilder);
   private confirmation = inject(ConfirmationService);
 
-  book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
-  selectedBook = {} as BookDto; // declare selectedBook
+  event = { items: [], totalCount: 0 } as PagedResultDto<EventDto>;
+  selectedEvent = {} as EventDto; // declare selectedEvent
   form: FormGroup;
-  bookTypes = bookTypeOptions;
   isModalOpen = false;
+  organizers: any;
 
   ngOnInit() {
-    const bookStreamCreator = query => this.bookService.getList(query);
+    const eventStreamCreator = query => this.eventService.getList(query);
 
-    this.list.hookToQuery(bookStreamCreator).subscribe(response => {
-      this.book = response;
+    this.list.hookToQuery(eventStreamCreator).subscribe(response => {
+      this.event = response;
     });
   }
 
-  createBook() {
-    this.selectedBook = {} as BookDto;
+  createEvent() {
+    this.selectedEvent = {} as EventDto;
     this.buildForm();
     this.isModalOpen = true;
   }
 
-  editBook(id: string) {
-    this.bookService.get(id).subscribe(book => {
-      this.selectedBook = book;
+  editEvent(id: string) {
+    this.eventService.get(id).subscribe(event => {
+      this.selectedEvent = event;
       this.buildForm();
       this.isModalOpen = true;
     });
@@ -84,20 +84,28 @@ export class BookComponent implements OnInit {
   delete(id: string) {
     this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe(status => {
       if (status === Confirmation.Status.confirm) {
-        this.bookService.delete(id).subscribe(() => this.list.get());
+        this.eventService.delete(id).subscribe(() => this.list.get());
       }
     });
   }
 
   buildForm() {
     this.form = this.fb.group({
-      name: [this.selectedBook.name || '', Validators.required],
-      type: [this.selectedBook.type || null, Validators.required],
-      publishDate: [
-        this.selectedBook.publishDate ? this.parseDate(this.selectedBook.publishDate) : null,
+      nameEn: [this.selectedEvent.nameEn || '', Validators.required],
+      nameAr: [this.selectedEvent.nameAr || '', Validators.required],
+      startDate: [
+        this.selectedEvent.startDate ? this.parseDate(this.selectedEvent.startDate) : null,
         Validators.required,
       ],
-      price: [this.selectedBook.price || null, Validators.required],
+      endDate: [
+        this.selectedEvent.endDate ? this.parseDate(this.selectedEvent.endDate) : null,
+        Validators.required,
+      ],
+      organizerId: [this.selectedEvent.organizerId || '', Validators.required],
+      link: [this.selectedEvent.link || null, Validators.required],
+      location: [this.selectedEvent.location || null, Validators.required],
+      isActive: [this.selectedEvent.isActive || false, Validators.required],
+      isOnline: [this.selectedEvent.isOnline || false, Validators.required],
     });
   }
 
@@ -109,12 +117,13 @@ export class BookComponent implements OnInit {
     const formValue = this.form.value;
     const requestData = {
       ...formValue,
-      publishDate: this.formatDate(formValue.publishDate),
+      startDate: this.formatDate(formValue.startDate),
+      endDate: this.formatDate(formValue.endDate),
     };
 
-    let request = this.bookService.create(requestData);
-    if (this.selectedBook.id) {
-      request = this.bookService.update(this.selectedBook.id, requestData);
+    let request = this.eventService.create(requestData);
+    if (this.selectedEvent.id) {
+      request = this.eventService.update(this.selectedEvent.id, requestData);
     }
 
     request.subscribe(() => {

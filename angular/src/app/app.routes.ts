@@ -9,12 +9,18 @@ export const APP_ROUTES: Routes = [
     canActivate: [authGuard, permissionGuard],
   },
   {
+    path: 'events',
+    loadComponent: () => import('./events/events.component').then(c => c.EventsComponent),
+    canActivate: [authGuard, permissionGuard],
+  },
+  {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(c => c.createRoutes()),
   },
   {
     path: 'identity',
     loadChildren: () => import('@abp/ng.identity').then(c => c.createRoutes()),
+    canActivate: [authGuard, permissionGuard],
   },
   {
     path: 'tenant-management',
@@ -24,11 +30,6 @@ export const APP_ROUTES: Routes = [
   {
     path: 'setting-management',
     loadChildren: () => import('@abp/ng.setting-management').then(c => c.createRoutes()),
-    canActivate: [authGuard, permissionGuard],
-  },
-  {
-    path: 'books',
-    loadComponent: () => import('./book/book.component').then(c => c.BookComponent),
     canActivate: [authGuard, permissionGuard],
   },
 ];

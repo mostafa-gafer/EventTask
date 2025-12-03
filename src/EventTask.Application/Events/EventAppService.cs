@@ -34,7 +34,7 @@ public class EventAppService : ApplicationService, IEventAppService
     {
         var queryable = await _repository.GetQueryableAsync();
         var query = queryable
-            .OrderBy(input.Sorting.IsNullOrWhiteSpace() ? "Name" : input.Sorting)
+            .OrderBy(input.Sorting.IsNullOrWhiteSpace() ? "NameAr" : input.Sorting)
             .Skip(input.SkipCount)
             .Take(input.MaxResultCount);
 
