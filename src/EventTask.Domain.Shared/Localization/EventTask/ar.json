@@ -70,6 +70,7 @@
     "Event:InPerson": "فعالية حضورية",
     "Event:Active": "نشط",
     "Event:Inactive": "غير نشط",
+    "Event:Actions": "الاعدادات",
 
     "EventRegistration:InvalidDateRange": "يجب أن يكون تاريخ النهاية بعد تاريخ البداية",
     "EventRegistration:InvalidCapacity": "يجب أن تكون السعة أكبر من صفر",
@@ -88,6 +89,9 @@
     "Filter:MyEvents": "فعالياتي المسجلة",
     "Filter:MyOrganizedEvents": "الفعاليات المنظمة من قبلي",
     "Filter:ActiveOnly": "النشطة فقط",
-    "Filter:IncludeInactive": "تضمين غير النشطة"
+    "Filter:IncludeInactive": "تضمين غير النشطة",
+
+    "AreYouSureToDelete": "هل أنت متأكد من الحذف؟"
+
   }
 }

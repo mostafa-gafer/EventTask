@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Component, inject, OnInit } from '@angular/core';
 import { DatePipe, formatDate } from '@angular/common';
-import { NgbDatepickerModule, NgbDateStruct, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import {
   ListService,
@@ -34,7 +34,6 @@ import { UserService } from '../proxy/users';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgbDatepickerModule,
     NgxDatatableModule,
     NgbDropdownModule,
     ModalComponent,
@@ -60,6 +59,10 @@ export class EventsComponent implements OnInit {
   form: FormGroup;
   isModalOpen = false;
   organizers: any;
+
+  get isOnline(): boolean {
+    return this.form?.get('isOnline')?.value || false;
+  }
 
   ngOnInit() {
     const eventStreamCreator = query => this.eventService.getList(query);
@@ -96,23 +99,53 @@ export class EventsComponent implements OnInit {
   }
 
   buildForm() {
+    const isOnline = this.selectedEvent.isOnline || false;
+
     this.form = this.fb.group({
       nameEn: [this.selectedEvent.nameEn || '', Validators.required],
       nameAr: [this.selectedEvent.nameAr || '', Validators.required],
       startDate: [
-        this.selectedEvent.startDate ? this.parseDate(this.selectedEvent.startDate) : null,
+        this.selectedEvent.startDate ? this.parseDateTime(this.selectedEvent.startDate) : null,
         Validators.required,
       ],
       endDate: [
-        this.selectedEvent.endDate ? this.parseDate(this.selectedEvent.endDate) : null,
+        this.selectedEvent.endDate ? this.parseDateTime(this.selectedEvent.endDate) : null,
         Validators.required,
       ],
       organizerId: [this.selectedEvent.organizerId || '', Validators.required],
-      link: [this.selectedEvent.link || null, Validators.required],
-      location: [this.selectedEvent.location || null, Validators.required],
+      link: [this.selectedEvent.link || null, isOnline ? Validators.required : null],
+      location: [this.selectedEvent.location || null, !isOnline ? Validators.required : null],
+      capacity: [this.selectedEvent.capacity || null, !isOnline ? Validators.required : null],
       isActive: [this.selectedEvent.isActive || false, Validators.required],
-      isOnline: [this.selectedEvent.isOnline || false, Validators.required],
+      isOnline: [isOnline, Validators.required],
     });
+
+    // Subscribe to isOnline changes to update validators dynamically
+    this.form.get('isOnline')?.valueChanges.subscribe(value => {
+      this.updateConditionalValidators(value);
+    });
+  }
+
+  private updateConditionalValidators(isOnline: boolean) {
+    const linkControl = this.form.get('link');
+    const locationControl = this.form.get('location');
+    const capacityControl = this.form.get('capacity');
+
+    if (isOnline) {
+      // If online: link is required, capacity and location are not required
+      linkControl?.setValidators(Validators.required);
+      locationControl?.clearValidators();
+      capacityControl?.clearValidators();
+    } else {
+      // If not online: capacity and location are required, link is not required
+      linkControl?.clearValidators();
+      locationControl?.setValidators(Validators.required);
+      capacityControl?.setValidators(Validators.required);
+    }
+
+    linkControl?.updateValueAndValidity();
+    locationControl?.updateValueAndValidity();
+    capacityControl?.updateValueAndValidity();
   }
 
   save() {
@@ -123,8 +156,8 @@ export class EventsComponent implements OnInit {
     const formValue = this.form.value;
     const requestData = {
       ...formValue,
-      startDate: this.formatDate(formValue.startDate),
-      endDate: this.formatDate(formValue.endDate),
+      startDate: this.formatDateTime(formValue.startDate),
+      endDate: this.formatDateTime(formValue.endDate),
     };
 
     let request = this.eventService.create(requestData);
@@ -139,7 +172,7 @@ export class EventsComponent implements OnInit {
     });
   }
 
-  private parseDate(value: string | Date): NgbDateStruct | null {
+  private parseDateTime(value: string | Date): string | null {
     if (!value) {
       return null;
     }
@@ -149,19 +182,27 @@ export class EventsComponent implements OnInit {
       return null;
     }
 
-    return {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
-    };
+    // Format as datetime-local string (YYYY-MM-DDTHH:mm)
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
-  private formatDate(dateStruct: NgbDateStruct | null): string {
-    if (!dateStruct) {
+  private formatDateTime(dateTimeString: string | null): string {
+    if (!dateTimeString) {
       return '';
     }
 
-    const date = new Date(dateStruct.year, dateStruct.month - 1, dateStruct.day);
-    return formatDate(date, 'yyyy-MM-dd', 'en');
+    // Parse datetime-local string (YYYY-MM-DDTHH:mm) and format as ISO string
+    const date = new Date(dateTimeString);
+    if (isNaN(date.getTime())) {
+      return '';
+    }
+
+    return date.toISOString();
   }
 }

@@ -19,8 +19,6 @@ public class EventDto : AuditedEntityDto<Guid>
 
     public Guid OrganizerId { get; init; }
 
-    public string? OrganizerName { get; init; }
-
     public string? Link { get; init; }
 
     public string? Location { get; init; }

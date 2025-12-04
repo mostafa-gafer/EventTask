@@ -25,7 +25,7 @@
   <div class="card-body">
     <ngx-datatable [rows]="event.items" [count]="event.totalCount" [list]="list" default>
       <ngx-datatable-column
-        [name]="'::Actions' | abpLocalization"
+        [name]="'::Event:Actions' | abpLocalization"
         [maxWidth]="150"
         [sortable]="false"
       >
@@ -37,11 +37,11 @@
               aria-haspopup="true"
               ngbDropdownToggle
             >
-              <i class="fa fa-cog me-1"></i>{{ '::Actions' | abpLocalization }}
+              <i class="fa fa-cog me-1"></i>{{ '::Event:Actions' | abpLocalization }}
             </button>
             <div ngbDropdownMenu>
               <button
-                *abpPermission="'EventTask.Events.Update'"
+                *abpPermission="'EventTask.Events.Edit'"
                 ngbDropdownItem
                 (click)="editEvent(row.id)"
               >
@@ -59,51 +59,50 @@
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column
-        [name]="'::NameEn' | abpLocalization"
+        [name]="'::Event:NameEn' | abpLocalization"
         prop="nameEn"
       ></ngx-datatable-column>
       <ngx-datatable-column
-        [name]="'::NameAr' | abpLocalization"
+        [name]="'::Event:NameAr' | abpLocalization"
         prop="nameAr"
       ></ngx-datatable-column>
-      <ngx-datatable-column [name]="'::IsOnline' | abpLocalization" prop="isOnline">
+      <ngx-datatable-column [name]="'::Event:IsOnline' | abpLocalization" prop="isOnline">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.isOnline ? '::Yes' : ('::No' | abpLocalization) }}
+          {{ row.isOnline ? '::Event:Online' : ('::Event:InPerson' | abpLocalization) }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::Capacity' | abpLocalization" prop="capacity">
+      <ngx-datatable-column [name]="'::Event:Capacity' | abpLocalization" prop="capacity">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.capacity }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::StartDate' | abpLocalization" prop="startDate">
+      <ngx-datatable-column [name]="'::Event:StartDate' | abpLocalization" prop="startDate">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.startDate | date }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::EndDate' | abpLocalization" prop="endDate">
+      <ngx-datatable-column [name]="'::Event:EndDate' | abpLocalization" prop="endDate">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.endDate | date }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::OrganizerName' | abpLocalization" prop="organizerName">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.organizerName }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::Link' | abpLocalization" prop="link">
+      <ngx-datatable-column [name]="'::Event:Link' | abpLocalization" prop="link">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.link }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::Location' | abpLocalization" prop="location">
+      <ngx-datatable-column [name]="'::Event:Location' | abpLocalization" prop="location">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.location }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::IsActive' | abpLocalization" prop="isActive">
+      <ngx-datatable-column [name]="'::Event:IsActive' | abpLocalization" prop="isActive">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.isActive ? '::Yes' : ('::No' | abpLocalization) }}
+          {{
+            row.isActive
+              ? ('::Event:Active' | abpLocalization)
+              : ('::Event:Inactive' | abpLocalization)
+          }}
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
@@ -119,7 +118,8 @@
   <ng-template #abpBody>
     <form [formGroup]="form" (ngSubmit)="save()">
       <div class="mt-2">
-        <label for="event-name-en">Name En</label><span> * </span>
+        <label for="event-name-en">{{ '::Event:NameEn' | abpLocalization }}</label
+        ><span> * </span>
         <input
           type="text"
           id="event-name-en"
@@ -129,7 +129,8 @@
         />
       </div>
       <div class="mt-2">
-        <label for="event-name-ar">Name Ar</label><span> * </span>
+        <label for="event-name-ar">{{ '::Event:NameAr' | abpLocalization }}</label
+        ><span> * </span>
         <input
           type="text"
           id="event-name-ar"
@@ -139,32 +140,52 @@
         />
       </div>
       <div class="mt-2">
-        <label for="event-is-online">Is Online</label><span> * </span>
+        <label for="event-is-online">{{ '::Event:IsOnline' | abpLocalization }}</label
+        ><span> * </span>
+        <div class="form-check form-switch">
+          <input
+            type="checkbox"
+            id="event-is-online"
+            class="form-check-input"
+            formControlName="isOnline"
+            role="switch"
+          />
+        </div>
+      </div>
+
+      @if (!isOnline) {
+      <div class="mt-2">
+        <label for="event-capacity">{{ '::Event:Capacity' | abpLocalization }}</label
+        ><span> * </span>
+        <input type="number" id="event-capacity" class="form-control" formControlName="capacity" />
+      </div>
+      }
+
+      <div class="mt-2">
+        <label for="event-start-date">{{ '::Event:StartDate' | abpLocalization }}</label
+        ><span> * </span>
         <input
-          type="checkbox"
-          id="event-is-online"
+          type="datetime-local"
+          id="event-start-date"
           class="form-control"
-          formControlName="isOnline"
-          role="switch"
+          formControlName="startDate"
         />
       </div>
       <div class="mt-2">
-        <label for="event-capacity">Capacity</label><span> * </span>
-        <input type="number" id="event-capacity" class="form-control" formControlName="capacity" />
-      </div>
-
-      <div class="mt-2">
-        <label for="event-start-date">Start Date</label><span> * </span>
-        <input type="date" id="event-start-date" class="form-control" formControlName="startDate" />
-      </div>
-      <div class="mt-2">
-        <label for="event-end-date">End Date</label><span> * </span>
-        <input type="date" id="event-end-date" class="form-control" formControlName="endDate" />
+        <label for="event-end-date">{{ '::Event:EndDate' | abpLocalization }}</label
+        ><span> * </span>
+        <input
+          type="datetime-local"
+          id="event-end-date"
+          class="form-control"
+          formControlName="endDate"
+        />
       </div>
       <div class="mt-2">
-        <label for="event-organizer-id">Organizer Id</label><span> * </span>
+        <label for="event-organizer-id">{{ '::Event:Organizer' | abpLocalization }}</label
+        ><span> * </span>
         <select class="form-control" id="event-organizer-id" formControlName="organizerId">
-          <option [ngValue]="null">Select a organizer</option>
+          <option [ngValue]="null">Select an organizer</option>
           @for(organizer of organizers; track $index){
           <option [ngValue]="organizer.id">
             {{ organizer.name }}
@@ -172,14 +193,19 @@
           }
         </select>
       </div>
+      @if (isOnline) {
       <div class="mt-2">
-        <label for="event-link">Link</label><span> * </span>
+        <label for="event-link">{{ '::Event:Link' | abpLocalization }}</label
+        ><span> * </span>
         <input type="text" id="event-link" class="form-control" formControlName="link" />
       </div>
+      } @if (!isOnline) {
       <div class="mt-2">
-        <label for="event-location">Location</label><span> * </span>
+        <label for="event-location">{{ '::Event:Location' | abpLocalization }}</label
+        ><span> * </span>
         <input type="text" id="event-location" class="form-control" formControlName="location" />
       </div>
+      }
       <div class="mt-2 d-flex align-items-center">
         <label for="event-is-active" class="mb-0 me-2">Is Active</label><span class="me-2"> *</span>
         <div class="form-check form-switch m-0">
