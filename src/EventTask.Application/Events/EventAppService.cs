@@ -5,12 +5,12 @@ using EventTask.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Domain.Repositories;
-using System.Linq;
+using Volo.Abp.Users;
 
 namespace EventTask.Events;
 
@@ -18,10 +18,11 @@ namespace EventTask.Events;
 public class EventAppService : ApplicationService, IEventAppService
 {
     private readonly IEventRepository _repository;
-
-    public EventAppService(IEventRepository repository)
+    private readonly ICurrentUser _currentUser;
+    public EventAppService(IEventRepository repository, ICurrentUser currentUser)
     {
         _repository = repository;
+        _currentUser = currentUser;
     }
 
     public async Task<EventDto> GetAsync(Guid id)
