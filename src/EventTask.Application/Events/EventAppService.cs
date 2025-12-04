@@ -1,4 +1,6 @@
-﻿using EventTask.Events.Dtos;
+﻿using EventTask.EventRegistrations;
+using EventTask.EventRegistrations.Dtos;
+using EventTask.Events.Dtos;
 using EventTask.Events.Entities;
 using EventTask.Events.Interfaces;
 using EventTask.Permissions;
@@ -8,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Users;
@@ -27,12 +30,13 @@ public class EventAppService : ApplicationService, IEventAppService
 
     public async Task<EventDto> GetAsync(Guid id)
     {
-        var Event = await _repository.GetAsync(id);
-        return ObjectMapper.Map<Event, EventDto>(Event);
+        var eventEntity = await _repository.GetAsync(id);
+        return ObjectMapper.Map<Event, EventDto>(eventEntity);
     }
 
     public async Task<PagedResultDto<EventDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
+        var s = _currentUser;
         var queryable = await _repository.GetQueryableAsync();
         var query = queryable
             .OrderBy(input.Sorting.IsNullOrWhiteSpace() ? "NameAr" : input.Sorting)
@@ -48,7 +52,8 @@ public class EventAppService : ApplicationService, IEventAppService
         );
     }
 
-    [Authorize(EventTaskPermissions.Events.Create)]
+    //[Authorize(EventTaskPermissions.Events.Create)]
+    [Authorize(Roles = EventTaskConsts.AdminRole)]
     public async Task<EventDto> CreateAsync(CreateUpdateEventDto input)
     {
         var eventEntity = new Event(input.NameEn, 
@@ -66,7 +71,8 @@ public class EventAppService : ApplicationService, IEventAppService
         return ObjectMapper.Map<Event, EventDto>(eventEntity);
     }
 
-    [Authorize(EventTaskPermissions.Events.Edit)]
+    //[Authorize(EventTaskPermissions.Events.Edit)]
+    [Authorize(Roles = EventTaskConsts.AdminRole)]
     public async Task<EventDto> UpdateAsync(Guid id, CreateUpdateEventDto input)
     {
         var eventEntity = await _repository.GetAsync(id);
@@ -85,9 +91,17 @@ public class EventAppService : ApplicationService, IEventAppService
         return ObjectMapper.Map<Event, EventDto>(eventEntity);
     }
 
-    [Authorize(EventTaskPermissions.Events.Delete)]
+    //[Authorize(EventTaskPermissions.Events.Delete)]
+    [Authorize(Roles = EventTaskConsts.AdminRole)]
     public async Task DeleteAsync(Guid id)
     {
         await _repository.DeleteAsync(id);
     }
+
+    // Helper method to check if current user is admin
+    private bool IsCurrentUserAdmin()
+    {
+        return _currentUser.IsInRole("admin");
+    }
+    
 }

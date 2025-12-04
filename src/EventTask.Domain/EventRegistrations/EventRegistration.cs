@@ -18,12 +18,22 @@ public class EventRegistration : AuditedAggregateRoot<Guid>
 
     public DateTime RegisteredAt { get; private set; }
 
+    public bool IsCancelled { get; private set; }
+    public DateTime? CancellationDate { get; private set; }
+
     protected EventRegistration() { }
 
-    public EventRegistration(Guid id, Guid eventId, Guid userId) : base(id)
+    public EventRegistration(Guid eventId, Guid userId)
     {
         EventId = eventId;
         UserId = userId;
         RegisteredAt = DateTime.UtcNow;
+        IsCancelled = false;
+    }
+
+    public void Cancel()
+    {
+        IsCancelled = true;
+        CancellationDate = DateTime.UtcNow;
     }
 }

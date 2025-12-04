@@ -91,7 +91,14 @@
     "Permission:Events.Edit": "Edit",
     "Permission:Events.Delete": "Delete",
     "Permission:Events.Register": "Register",
-    "Permission:Events.Cancel": "Cancel"
+    "Permission:Events.Cancel": "Cancel",
+    "EventTask:EventNotActive": "This event is not active",
+    "EventTask:EventAlreadyStarted": "This event has already started",
+    "EventTask:AlreadyRegistered": "You are already registered for this event",
+    "EventTask:EventCapacityNotSet": "Event capacity is not set",
+    "EventTask:EventCapacityReached": "This event has reached its maximum capacity",
+    "EventTask:CannotCancelRegistration": "Registration can only be cancelled until 1 hour before the event starts",
+    "EventTask:NotRegisteredToEvent": "You are not registered for this event"
 
 
   }

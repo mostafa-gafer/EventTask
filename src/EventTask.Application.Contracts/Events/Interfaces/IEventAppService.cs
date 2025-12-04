@@ -3,6 +3,7 @@ using EventTask.Events.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -15,5 +16,4 @@ public interface IEventAppService :
         PagedAndSortedResultRequestDto, //Used for paging/sorting
         CreateUpdateEventDto> //Used to create/update a event
 {
-
 }

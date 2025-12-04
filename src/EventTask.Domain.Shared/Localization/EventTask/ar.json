@@ -98,7 +98,14 @@
     "Permission:Events.Delete": "مسح",
     "Permission:Events.Register": "تسجيل",
     "Permission:Events.Cancel": "الغاء",
-    "Permission:EventTask": "فعالية"
+    "Permission:EventTask": "الحدث",
+    "EventTask:EventNotActive": "هذا الحدث غير مفعل",
+    "EventTask:EventAlreadyStarted": "لقد بدأ هذا الحدث بالفعل",
+    "EventTask:AlreadyRegistered": "أنت مسجل بالفعل في هذا الحدث",
+    "EventTask:EventCapacityNotSet": "لم يتم تحديد السعة لهذا الحدث",
+    "EventTask:EventCapacityReached": "تم الوصول إلى الحد الأقصى لسعة الحدث",
+    "EventTask:CannotCancelRegistration": "لا يمكن إلغاء التسجيل إلا قبل ساعة واحدة من موعد بدء الحدث",
+    "EventTask:NotRegisteredToEvent": "أنت غير مسجل في هذا الحدث"
 
   }
 }

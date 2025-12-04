@@ -7,4 +7,11 @@ namespace EventTask.EventRegistrations.Dtos;
 
 public class EventRegistrationDto : AuditedEntityDto<Guid>
 {
+    public Guid EventId { get; set; }
+    public Guid UserId { get; set; }
+    public Guid UserName { get; set; }
+    public DateTime RegistrationDate { get; set; }
+    public bool IsCancelled { get; set; }
+    public DateTime? CancellationDate { get; set; }
+
 }
