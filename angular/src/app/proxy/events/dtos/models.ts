@@ -21,7 +21,6 @@ export interface EventDto extends AuditedEntityDto<string> {
   startDate?: string;
   endDate?: string;
   organizerId?: string;
-  organizerName?: string;
   link?: string;
   location?: string;
   isActive: boolean;

@@ -873,6 +873,186 @@
       "rootPath": "app",
       "remoteServiceName": "Default",
       "controllers": {
+        "EventTask.EventRegistrations.EventRegistrationAppService": {
+          "controllerName": "EventRegistration",
+          "controllerGroupName": "EventRegistration",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "EventTask.EventRegistrations.EventRegistrationAppService",
+          "interfaces": [
+            {
+              "type": "EventTask.EventRegistrations.Interfaces.IEventRegistrationAppService",
+              "name": "IEventRegistrationAppService",
+              "methods": [
+                {
+                  "name": "GetEventRegistrationsAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "eventId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<EventTask.EventRegistrations.Dtos.EventRegistrationDto>",
+                    "typeSimple": "[EventTask.EventRegistrations.Dtos.EventRegistrationDto]"
+                  }
+                },
+                {
+                  "name": "RegisterToEventAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "eventId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "EventTask.EventRegistrations.Dtos.EventRegistrationDto",
+                    "typeSimple": "EventTask.EventRegistrations.Dtos.EventRegistrationDto"
+                  }
+                },
+                {
+                  "name": "CancelRegistrationAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "eventId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetEventRegistrationsAsyncByEventId": {
+              "uniqueName": "GetEventRegistrationsAsyncByEventId",
+              "name": "GetEventRegistrationsAsync",
+              "httpMethod": "GET",
+              "url": "api/app/event-registration/event-registrations/{eventId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "eventId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "eventId",
+                  "name": "eventId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<EventTask.EventRegistrations.Dtos.EventRegistrationDto>",
+                "typeSimple": "[EventTask.EventRegistrations.Dtos.EventRegistrationDto]"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "EventTask.EventRegistrations.Interfaces.IEventRegistrationAppService"
+            },
+            "RegisterToEventAsyncByEventId": {
+              "uniqueName": "RegisterToEventAsyncByEventId",
+              "name": "RegisterToEventAsync",
+              "httpMethod": "POST",
+              "url": "api/app/event-registration/register-to-event/{eventId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "eventId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "eventId",
+                  "name": "eventId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "EventTask.EventRegistrations.Dtos.EventRegistrationDto",
+                "typeSimple": "EventTask.EventRegistrations.Dtos.EventRegistrationDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "EventTask.EventRegistrations.Interfaces.IEventRegistrationAppService"
+            },
+            "CancelRegistrationAsyncByEventId": {
+              "uniqueName": "CancelRegistrationAsyncByEventId",
+              "name": "CancelRegistrationAsync",
+              "httpMethod": "POST",
+              "url": "api/app/event-registration/cancel-registration/{eventId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "eventId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "eventId",
+                  "name": "eventId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "EventTask.EventRegistrations.Interfaces.IEventRegistrationAppService"
+            }
+          }
+        },
         "EventTask.Events.EventAppService": {
           "controllerName": "Event",
           "controllerGroupName": "Event",
@@ -1249,7 +1429,7 @@
                 "type": "System.Collections.Generic.List<EventTask.Users.Dtos.UserDto>",
                 "typeSimple": "[EventTask.Users.Dtos.UserDto]"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "EventTask.Users.Interfaces.IUserAppService"
             }
           }
@@ -4009,6 +4189,87 @@
     }
   },
   "types": {
+    "EventTask.EventRegistrations.Dtos.EventRegistrationDto": {
+      "baseType": "Volo.Abp.Application.Dtos.AuditedEntityDto<System.Guid>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "EventId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserName",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "RegistrationDate",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsCancelled",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CancellationDate",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "EventTask.Events.Dtos.CreateUpdateEventDto": {
       "baseType": null,
       "isEnum": false,
@@ -4221,18 +4482,6 @@
           "name": "OrganizerId",
           "jsonName": null,
           "type": "System.Guid",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "OrganizerName",
-          "jsonName": null,
-          "type": "System.String",
           "typeSimple": "string",
           "isRequired": false,
           "minLength": null,

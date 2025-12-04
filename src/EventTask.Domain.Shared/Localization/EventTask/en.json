@@ -98,7 +98,9 @@
     "EventTask:EventCapacityNotSet": "Event capacity is not set",
     "EventTask:EventCapacityReached": "This event has reached its maximum capacity",
     "EventTask:CannotCancelRegistration": "Registration can only be cancelled until 1 hour before the event starts",
-    "EventTask:NotRegisteredToEvent": "You are not registered for this event"
+    "EventTask:NotRegisteredToEvent": "You are not registered for this event",
+    "AreYouSureToRegister": "Are you sure to register",
+    "AreYouSureToCancel": "Are you sure to cancel"
 
 
   }

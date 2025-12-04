@@ -1,3 +1,4 @@
+import * as EventRegistrations from './event-registrations';
 import * as Events from './events';
 import * as Users from './users';
-export { Events, Users };
+export { EventRegistrations, Events, Users };

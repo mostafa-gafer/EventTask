@@ -55,6 +55,21 @@
               >
                 {{ '::Delete' | abpLocalization }}
               </button>
+              } @if (currentUser?.roles.includes('user')) {
+              <button
+                *abpPermission="'EventTask.Events.Register'"
+                ngbDropdownItem
+                (click)="register(row.id)"
+              >
+                {{ '::Register' | abpLocalization }}
+              </button>
+              <button
+                *abpPermission="'EventTask.Events.Cancel'"
+                ngbDropdownItem
+                (click)="cancel(row.id)"
+              >
+                {{ '::Cancel' | abpLocalization }}
+              </button>
               }
             </div>
           </div>

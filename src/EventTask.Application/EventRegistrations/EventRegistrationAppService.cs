@@ -5,9 +5,11 @@ using EventTask.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Guids;
@@ -34,6 +36,21 @@ public class EventRegistrationAppService : ApplicationService, IEventRegistratio
         _currentUser = currentUser;
     }
 
+    public async Task<List<EventRegistrationDto>> GetEventRegistrationsAsync(Guid eventId)
+    {
+
+        var queryable = await _registrationRepository.GetQueryableAsync();
+
+        // Get user's registrations with event details
+        var query = queryable
+            .Where(r => r.EventId == eventId && !r.IsCancelled)
+            .OrderBy(x => nameof(EventRegistration.RegisteredAt));
+
+        var registrations = await AsyncExecuter.ToListAsync(query);
+
+        return ObjectMapper.Map<List<EventRegistration>, List<EventRegistrationDto>>(registrations);
+    }
+
     [Authorize(Roles = EventTaskConsts.UserRole)]
     public async Task<EventRegistrationDto> RegisterToEventAsync(Guid eventId)
     {
@@ -48,15 +65,15 @@ public class EventRegistrationAppService : ApplicationService, IEventRegistratio
         // Validate event is active
         if (!eventEntity.IsActive)
         {
-            throw new BusinessException("EventTask:EventNotActive")
-                .WithData("EventId", eventId);
+            throw new BusinessException("EventTask:EventNotActive");
+                //.WithData("EventId", eventId);
         }
 
         // Validate event hasn't started
         if (eventEntity.StartDate <= DateTime.UtcNow)
         {
-            throw new BusinessException("EventTask:EventAlreadyStarted")
-                .WithData("EventId", eventId);
+            throw new BusinessException("EventTask:EventAlreadyStarted");
+                //.WithData("EventId", eventId);
         }
 
         // Check if user is already registered
@@ -65,8 +82,8 @@ public class EventRegistrationAppService : ApplicationService, IEventRegistratio
 
         if (existingRegistration != null && !existingRegistration.IsCancelled)
         {
-            throw new BusinessException("EventTask:AlreadyRegistered")
-                .WithData("EventId", eventId);
+            throw new BusinessException("EventTask:AlreadyRegistered");
+                //.WithData("EventId", eventId);
         }
 
         // Check capacity for physical events
@@ -74,8 +91,8 @@ public class EventRegistrationAppService : ApplicationService, IEventRegistratio
         {
             if (!eventEntity.Capacity.HasValue)
             {
-                throw new BusinessException("EventTask:EventCapacityNotSet")
-                    .WithData("EventId", eventId);
+                throw new BusinessException("EventTask:EventCapacityNotSet");
+                    //.WithData("EventId", eventId);
             }
 
             var activeRegistrationsCount = await _registrationRepository
@@ -83,9 +100,9 @@ public class EventRegistrationAppService : ApplicationService, IEventRegistratio
 
             if (activeRegistrationsCount >= eventEntity.Capacity.Value)
             {
-                throw new BusinessException("EventTask:EventCapacityReached")
-                    .WithData("EventId", eventId)
-                    .WithData("Capacity", eventEntity.Capacity.Value);
+                throw new BusinessException("EventTask:EventCapacityReached");
+                    //.WithData("EventId", eventId)
+                    //.WithData("Capacity", eventEntity.Capacity.Value);
             }
         }
 
@@ -110,10 +127,10 @@ public class EventRegistrationAppService : ApplicationService, IEventRegistratio
         // Check if user can cancel (more than 1 hour before start)
         if (!eventEntity.CanCancelRegistration())
         {
-            throw new BusinessException("EventTask:CannotCancelRegistration")
-                .WithData("EventId", eventId)
-                .WithData("StartDate", eventEntity.StartDate)
-                .WithData("CancellationDeadline", eventEntity.StartDate.AddHours(-1));
+            throw new BusinessException("EventTask:CannotCancelRegistration");
+                //.WithData("EventId", eventId)
+                //.WithData("StartDate", eventEntity.StartDate)
+                //.WithData("CancellationDeadline", eventEntity.StartDate.AddHours(-1));
         }
 
         // Find active registration
@@ -122,8 +139,8 @@ public class EventRegistrationAppService : ApplicationService, IEventRegistratio
 
         if (registration == null || registration.IsCancelled)
         {
-            throw new BusinessException("EventTask:NotRegisteredToEvent")
-                .WithData("EventId", eventId);
+            throw new BusinessException("EventTask:NotRegisteredToEvent");
+                //.WithData("EventId", eventId);
         }
 
         registration.Cancel();

@@ -105,7 +105,9 @@
     "EventTask:EventCapacityNotSet": "لم يتم تحديد السعة لهذا الحدث",
     "EventTask:EventCapacityReached": "تم الوصول إلى الحد الأقصى لسعة الحدث",
     "EventTask:CannotCancelRegistration": "لا يمكن إلغاء التسجيل إلا قبل ساعة واحدة من موعد بدء الحدث",
-    "EventTask:NotRegisteredToEvent": "أنت غير مسجل في هذا الحدث"
+    "EventTask:NotRegisteredToEvent": "أنت غير مسجل في هذا الحدث",
+    "AreYouSureToRegister": "هل انت متاكد من التسجيل",
+    "AreYouSureToCancel": "هل انت متاكد من الالغاء"
 
   }
 }

@@ -28,6 +28,7 @@ import {
 import { EventService } from '../proxy/events';
 import { EventDto } from '../proxy/events/dtos';
 import { UserService } from '../proxy/users';
+import { EventRegistrationService } from '../proxy/event-registrations';
 
 @Component({
   selector: 'app-events',
@@ -51,6 +52,7 @@ import { UserService } from '../proxy/users';
 export class EventsComponent implements OnInit {
   public readonly list = inject(ListService);
   private eventService = inject(EventService);
+  private eventRegistrationService = inject(EventRegistrationService);
   private userService = inject(UserService);
   private fb = inject(FormBuilder);
   private confirmation = inject(ConfirmationService);
@@ -102,6 +104,22 @@ export class EventsComponent implements OnInit {
     this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe(status => {
       if (status === Confirmation.Status.confirm) {
         this.eventService.delete(id).subscribe(() => this.list.get());
+      }
+    });
+  }
+
+  register(id: string) {
+    this.confirmation.warn('::AreYouSureToRegister', '::AreYouSure').subscribe(status => {
+      if (status === Confirmation.Status.confirm) {
+        this.eventRegistrationService.registerToEvent(id).subscribe(() => this.list.get());
+      }
+    });
+  }
+
+  cancel(id: string) {
+    this.confirmation.warn('::AreYouSureToCancel', '::AreYouSure').subscribe(status => {
+      if (status === Confirmation.Status.confirm) {
+        this.eventRegistrationService.cancelRegistration(id).subscribe(() => this.list.get());
       }
     });
   }
