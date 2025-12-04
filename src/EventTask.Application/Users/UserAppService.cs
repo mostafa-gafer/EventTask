@@ -1,7 +1,9 @@
 ﻿using EventTask.Events.Dtos;
 using EventTask.Events.Entities;
+using EventTask.Permissions;
 using EventTask.Users.Dtos;
 using EventTask.Users.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,7 @@ using Volo.Abp.ObjectMapping;
 
 namespace EventTask.Users;
 
+[Authorize]
 public class UserAppService : ApplicationService, IUserAppService
 {
     private readonly IIdentityUserRepository _userRepository;

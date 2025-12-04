@@ -24,14 +24,12 @@ public class EventAppService : ApplicationService, IEventAppService
         _repository = repository;
     }
 
-    [Authorize(EventTaskPermissions.Events.Default)]
     public async Task<EventDto> GetAsync(Guid id)
     {
         var Event = await _repository.GetAsync(id);
         return ObjectMapper.Map<Event, EventDto>(Event);
     }
 
-    [Authorize(EventTaskPermissions.Events.Default)]
     public async Task<PagedResultDto<EventDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
         var queryable = await _repository.GetQueryableAsync();

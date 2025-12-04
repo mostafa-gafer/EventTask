@@ -91,7 +91,14 @@
     "Filter:ActiveOnly": "النشطة فقط",
     "Filter:IncludeInactive": "تضمين غير النشطة",
 
-    "AreYouSureToDelete": "هل أنت متأكد من الحذف؟"
+    "AreYouSureToDelete": "هل أنت متأكد من الحذف؟",
+    "Permission:Events": "فعاليات",
+    "Permission:Events.Create": "اتشاء",
+    "Permission:Events.Edit": "تعديل",
+    "Permission:Events.Delete": "مسح",
+    "Permission:Events.Register": "تسجيل",
+    "Permission:Events.Cancel": "الغاء",
+    "Permission:EventTask": "فعالية"
 
   }
 }

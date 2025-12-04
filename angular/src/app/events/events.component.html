@@ -68,7 +68,11 @@
       ></ngx-datatable-column>
       <ngx-datatable-column [name]="'::Event:IsOnline' | abpLocalization" prop="isOnline">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.isOnline ? '::Event:Online' : ('::Event:InPerson' | abpLocalization) }}
+          {{
+            row.isOnline
+              ? ('::Event:Online' | abpLocalization)
+              : ('::Event:InPerson' | abpLocalization)
+          }}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'::Event:Capacity' | abpLocalization" prop="capacity">

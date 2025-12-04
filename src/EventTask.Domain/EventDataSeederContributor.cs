@@ -37,7 +37,7 @@ public class EventTaskDataSeederContributor
     public async Task SeedAsync(DataSeedContext context)
     {
         await SeedRolesAsync();
-        //await SeedPermissionsAsync();
+        await SeedPermissionsAsync();
     }
 
     private async Task SeedRolesAsync()
@@ -75,22 +75,18 @@ public class EventTaskDataSeederContributor
         }
     }
 
-    //private async Task SeedPermissionsAsync()
-    //{
-    //    // Grant all event permissions to admin role
-    //    await _permissionDataSeeder.SeedAsync(
-    //        RolePermissionValueProvider.ProviderName,
-    //        EventTaskConsts.AdminRole,
-    //        new[]
-    //        {
-    //                EventTaskPermissions.Events.Default,
-    //                EventTaskPermissions.Events.View,
-    //                EventTaskPermissions.Events.Create,
-    //                EventTaskPermissions.Events.Edit,
-    //                EventTaskPermissions.Events.Delete,
-    //                EventTaskPermissions.Events.Manage,
-    //                EventTaskPermissions.Events.ViewRegistrations
-    //        }
-    //    );
-    //}
+    private async Task SeedPermissionsAsync()
+    {
+        // Grant all event permissions to admin role
+        await _permissionDataSeeder.SeedAsync(
+            RolePermissionValueProvider.ProviderName,
+            EventTaskConsts.UserRole,
+            new[]
+            {
+                    "EventTask.Events",
+                    "EventTask.Events.Register",
+                    "EventTask.Events.Cancel"
+            }
+        );
+    }
 }

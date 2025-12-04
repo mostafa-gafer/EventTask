@@ -83,6 +83,13 @@
     "Filter:MyEvents": "My Registered Events",
     "Filter:MyOrganizedEvents": "My Organized Events",
     "Filter:ActiveOnly": "Active Only",
-    "Filter:IncludeInactive": "Include Inactive"
+    "Filter:IncludeInactive": "Include Inactive",
+
+    "Permission:Events": "Events",
+    "Permission:Events.Create": "Create",
+    "Permission:Events.Edit": "Edit",
+    "Permission:Events.Delete": "Delete",
+    "Permission:Events.Register": "Register",
+    "Permission:Events.Cancel": "Cancel"
   }
 }
