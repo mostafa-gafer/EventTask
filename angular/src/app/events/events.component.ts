@@ -15,6 +15,7 @@ import {
   LocalizationPipe,
   PermissionDirective,
   AutofocusDirective,
+  ConfigStateService,
 } from '@abp/ng.core';
 import {
   ConfirmationService,
@@ -53,6 +54,11 @@ export class EventsComponent implements OnInit {
   private userService = inject(UserService);
   private fb = inject(FormBuilder);
   private confirmation = inject(ConfirmationService);
+  private configState = inject(ConfigStateService);
+
+  get currentUser() {
+    return this.configState.getOne('currentUser');
+  }
 
   event = { items: [], totalCount: 0 } as PagedResultDto<EventDto>;
   selectedEvent = {} as EventDto; // declare selectedEvent
@@ -74,6 +80,8 @@ export class EventsComponent implements OnInit {
     this.userService.getAll().subscribe(response => {
       this.organizers = response;
     });
+
+    console.log(this.currentUser);
   }
 
   createEvent() {

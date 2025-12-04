@@ -65,6 +65,7 @@
     "Event:InPerson": "In-Person Event",
     "Event:Active": "Active",
     "Event:Inactive": "Inactive",
+    "Event:Actions": "Actions",
 
     "EventRegistration:InvalidDateRange": "End date must be after start date",
     "EventRegistration:InvalidCapacity": "Capacity must be greater than 0",
@@ -91,5 +92,7 @@
     "Permission:Events.Delete": "Delete",
     "Permission:Events.Register": "Register",
     "Permission:Events.Cancel": "Cancel"
+
+
   }
 }
