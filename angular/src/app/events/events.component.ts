@@ -26,6 +26,7 @@ import {
 } from '@abp/ng.theme.shared';
 import { EventService } from '../proxy/events';
 import { EventDto } from '../proxy/events/dtos';
+import { UserService } from '../proxy/users';
 
 @Component({
   selector: 'app-events',
@@ -50,6 +51,7 @@ import { EventDto } from '../proxy/events/dtos';
 export class EventsComponent implements OnInit {
   public readonly list = inject(ListService);
   private eventService = inject(EventService);
+  private userService = inject(UserService);
   private fb = inject(FormBuilder);
   private confirmation = inject(ConfirmationService);
 
@@ -64,6 +66,10 @@ export class EventsComponent implements OnInit {
 
     this.list.hookToQuery(eventStreamCreator).subscribe(response => {
       this.event = response;
+    });
+
+    this.userService.getAll().subscribe(response => {
+      this.organizers = response;
     });
   }
 

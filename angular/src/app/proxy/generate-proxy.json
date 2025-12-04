@@ -1212,6 +1212,47 @@
               "implementFrom": "Volo.Abp.Application.Services.IDeleteAppService<System.Guid>"
             }
           }
+        },
+        "EventTask.Users.UserAppService": {
+          "controllerName": "User",
+          "controllerGroupName": "User",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "EventTask.Users.UserAppService",
+          "interfaces": [
+            {
+              "type": "EventTask.Users.Interfaces.IUserAppService",
+              "name": "IUserAppService",
+              "methods": [
+                {
+                  "name": "GetAllAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<EventTask.Users.Dtos.UserDto>",
+                    "typeSimple": "[EventTask.Users.Dtos.UserDto]"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetAllAsync": {
+              "uniqueName": "GetAllAsync",
+              "name": "GetAllAsync",
+              "httpMethod": "GET",
+              "url": "api/app/user",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<EventTask.Users.Dtos.UserDto>",
+                "typeSimple": "[EventTask.Users.Dtos.UserDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EventTask.Users.Interfaces.IUserAppService"
+            }
+          }
         }
       }
     },
@@ -4229,6 +4270,27 @@
           "jsonName": null,
           "type": "System.Boolean",
           "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "EventTask.Users.Dtos.UserDto": {
+      "baseType": "Volo.Abp.Application.Dtos.AuditedEntityDto<System.Guid>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

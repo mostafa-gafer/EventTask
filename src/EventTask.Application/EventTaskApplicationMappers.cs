@@ -1,6 +1,8 @@
 using EventTask.Events.Dtos;
 using EventTask.Events.Entities;
+using EventTask.Users.Dtos;
 using Riok.Mapperly.Abstractions;
+using Volo.Abp.Identity;
 using Volo.Abp.Mapperly;
 
 namespace EventTask;
@@ -12,6 +14,7 @@ public partial class EventTaskEventToEventDtoMapper : MapperBase<Event, EventDto
 
     public override partial void Map(Event source, EventDto destination);
 }
+
 
 //[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
 //public partial class EventTaskCreateUpdateEventDtoToEventMapper : MapperBase<CreateUpdateEventDto, Event>

@@ -1,47 +1,96 @@
-﻿//using System;
-//using System.Threading.Tasks;
-//using EventTask.Books;
-//using Volo.Abp.Data;
-//using Volo.Abp.DependencyInjection;
-//using Volo.Abp.Domain.Repositories;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
+using Volo.Abp.Authorization.Permissions;
+using Volo.Abp.Data;
+using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Guids;
+using Volo.Abp.Identity;
+using Volo.Abp.PermissionManagement;
 
-//namespace EventTask;
+namespace EventTask;
 
-//public class EventTaskDataSeederContributor
-//    : IDataSeedContributor, ITransientDependency
-//{
-//    private readonly IRepository<Book, Guid> _bookRepository;
+public class EventTaskDataSeederContributor
+    : IDataSeedContributor, ITransientDependency
+{
 
-//    public EventTaskDataSeederContributor(IRepository<Book, Guid> bookRepository)
-//    {
-//        _bookRepository = bookRepository;
-//    }
+    private readonly IIdentityRoleRepository _roleRepository;
+    private readonly IdentityRoleManager _roleManager;
+    private readonly IGuidGenerator _guidGenerator;
+    private readonly IPermissionDataSeeder _permissionDataSeeder;
 
-//    public async Task SeedAsync(DataSeedContext context)
-//    {
-//        if (await _bookRepository.GetCountAsync() <= 0)
-//        {
-//            await _bookRepository.InsertAsync(
-//                new Book
-//                {
-//                    Name = "1984",
-//                    Type = BookType.Dystopia,
-//                    PublishDate = new DateTime(1949, 6, 8),
-//                    Price = 19.84f
-//                },
-//                autoSave: true
-//            );
+    public EventTaskDataSeederContributor(
+        IIdentityRoleRepository roleRepository,
+        IdentityRoleManager roleManager,
+        IGuidGenerator guidGenerator,
+        IPermissionDataSeeder permissionDataSeeder)
+    {
+        _roleRepository = roleRepository;
+        _roleManager = roleManager;
+        _guidGenerator = guidGenerator;
+        _permissionDataSeeder = permissionDataSeeder;
+    }
 
-//            await _bookRepository.InsertAsync(
-//                new Book
-//                {
-//                    Name = "The Hitchhiker's Guide to the Galaxy",
-//                    Type = BookType.ScienceFiction,
-//                    PublishDate = new DateTime(1995, 9, 27),
-//                    Price = 42.0f
-//                },
-//                autoSave: true
-//            );
-//        }
-//    }
-//}
+    public async Task SeedAsync(DataSeedContext context)
+    {
+        await SeedRolesAsync();
+        //await SeedPermissionsAsync();
+    }
+
+    private async Task SeedRolesAsync()
+    {
+        var adminRole = await _roleRepository.FindByNormalizedNameAsync(EventTaskConsts.AdminNormalizedRole);
+
+        if (adminRole == null)
+        {
+            adminRole = new IdentityRole(
+                _guidGenerator.Create(),
+                EventTaskConsts.AdminRole
+            )
+            {
+                IsDefault = false,
+                IsPublic = false
+            };
+
+            await _roleManager.CreateAsync(adminRole);
+        }
+
+        var userRole = await _roleRepository.FindByNormalizedNameAsync(EventTaskConsts.UserNormalizedRole);
+
+        if (userRole == null)
+        {
+            userRole = new IdentityRole(
+                _guidGenerator.Create(),
+                EventTaskConsts.UserRole
+            )
+            {
+                IsDefault = false,
+                IsPublic = false
+            };
+
+            await _roleManager.CreateAsync(userRole);
+        }
+    }
+
+    //private async Task SeedPermissionsAsync()
+    //{
+    //    // Grant all event permissions to admin role
+    //    await _permissionDataSeeder.SeedAsync(
+    //        RolePermissionValueProvider.ProviderName,
+    //        EventTaskConsts.AdminRole,
+    //        new[]
+    //        {
+    //                EventTaskPermissions.Events.Default,
+    //                EventTaskPermissions.Events.View,
+    //                EventTaskPermissions.Events.Create,
+    //                EventTaskPermissions.Events.Edit,
+    //                EventTaskPermissions.Events.Delete,
+    //                EventTaskPermissions.Events.Manage,
+    //                EventTaskPermissions.Events.ViewRegistrations
+    //        }
+    //    );
+    //}
+}

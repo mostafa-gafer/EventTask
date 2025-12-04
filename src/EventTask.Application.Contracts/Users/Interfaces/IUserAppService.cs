@@ -11,6 +11,6 @@ namespace EventTask.Users.Interfaces;
 
 public interface IUserAppService
 {
-    Task<UserDto> GetAllAsync();
+    Task<List<UserDto>> GetAllAsync();
 }
 
